@@ -19,6 +19,7 @@ class PrivacyDomain(str, Enum):
     PHONE_TELEPHONY = "Phone State & Telephony"
     BIOMETRICS_SENSORS = "Biometrics & Body Sensors"
     CONNECTIVITY_NETWORK = "Network & Connectivity"
+    THIRD_PARTY_SHARING = "Third-Party Sharing & Advertising"
     SYSTEM_OTHER = "System & Other"
 
 
@@ -250,6 +251,38 @@ PERMISSION_KNOWLEDGE_BASE: dict[str, PermissionInfo] = {
         what_it_does_not_prove="Does not prove call recording or remote logging.",
         inherent_privacy_risk="High",
     ),
+    "READ_SMS": PermissionInfo(
+        name="READ_SMS",
+        domain=PrivacyDomain.PHONE_TELEPHONY,
+        protection_level=ProtectionLevel.DANGEROUS,
+        short_description="Read SMS text messages",
+        what_it_allows=(
+            "Allows reading all SMS messages stored on the device, including one-time passwords "
+            "and banking alerts."
+        ),
+        what_it_does_not_prove=(
+            "Does not prove messages are uploaded. Often used to auto-fill OTP codes on-device."
+        ),
+        inherent_privacy_risk="High",
+    ),
+    "RECEIVE_SMS": PermissionInfo(
+        name="RECEIVE_SMS",
+        domain=PrivacyDomain.PHONE_TELEPHONY,
+        protection_level=ProtectionLevel.DANGEROUS,
+        short_description="Receive incoming SMS messages",
+        what_it_allows="Allows the app to receive and process incoming SMS messages as they arrive.",
+        what_it_does_not_prove="Does not prove message contents are stored or transmitted.",
+        inherent_privacy_risk="High",
+    ),
+    "SEND_SMS": PermissionInfo(
+        name="SEND_SMS",
+        domain=PrivacyDomain.PHONE_TELEPHONY,
+        protection_level=ProtectionLevel.DANGEROUS,
+        short_description="Send SMS messages",
+        what_it_allows="Allows the app to send SMS messages, which may cost the user money.",
+        what_it_does_not_prove="Does not prove messages are sent without user action.",
+        inherent_privacy_risk="High",
+    ),
 
     # ---------------- SENSORS & BIOMETRICS DOMAIN ----------------
     "BODY_SENSORS": PermissionInfo(
@@ -298,6 +331,38 @@ PERMISSION_KNOWLEDGE_BASE: dict[str, PermissionInfo] = {
         what_it_allows="Allows checking whether an active Wi-Fi or mobile data connection is available.",
         what_it_does_not_prove="Does not allow inspecting network packet data or web traffic.",
         inherent_privacy_risk="Low",
+    ),
+    "INTERNET": PermissionInfo(
+        name="INTERNET",
+        domain=PrivacyDomain.CONNECTIVITY_NETWORK,
+        protection_level=ProtectionLevel.NORMAL,
+        short_description="Open network connections",
+        what_it_allows=(
+            "Allows the app to send and receive data over the internet. This is the technical channel "
+            "through which any collected data could leave the device."
+        ),
+        what_it_does_not_prove=(
+            "Does not prove that personal data is transmitted. Nearly every app requests it for "
+            "ordinary content loading."
+        ),
+        inherent_privacy_risk="Low",
+    ),
+
+    # ---------------- THIRD-PARTY SHARING & ADVERTISING DOMAIN ----------------
+    "AD_ID": PermissionInfo(
+        name="AD_ID",
+        domain=PrivacyDomain.THIRD_PARTY_SHARING,
+        protection_level=ProtectionLevel.NORMAL,
+        short_description="Read the Google Advertising ID",
+        what_it_allows=(
+            "Allows reading the device's resettable Advertising ID, which ad and analytics networks use "
+            "to recognise the same user across different apps."
+        ),
+        what_it_does_not_prove=(
+            "Does not prove the ID is sold or shared. It does show the app (or an SDK inside it) is set up "
+            "for advertising or analytics, which normally involves third parties."
+        ),
+        inherent_privacy_risk="Medium",
     ),
 }
 

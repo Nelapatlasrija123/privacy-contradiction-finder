@@ -1,0 +1,19 @@
+{
+  "app_name": "SkyCast Weather (Fictional Demo)",
+  "stated_purpose": "Local weather forecasts and rain alerts.",
+  "evidence_source": "Decompiled AndroidManifest.xml (Static Analysis)",
+  "policy_text": "SkyCast Weather Privacy Policy:\n\n1. Location: We collect your approximate location to show the forecast for your area.\n2. Photos: You can share weather photos with the community if you choose to share them.\n3. Contact: If you have questions, contact us at support@skycast.example and we will reply within 7 days.",
+  "terms_text": "SkyCast Terms of Service:\n\nBy using the app you agree to our Privacy Policy. You grant us a worldwide, royalty-free licence to use, copy and display any photos you upload. We may share usage data with our advertising partners. We may modify these terms at any time without notice.",
+  "permissions": [
+    "android.permission.ACCESS_COARSE_LOCATION",
+    "android.permission.READ_MEDIA_IMAGES",
+    "android.permission.READ_CONTACTS",
+    "android.permission.INTERNET",
+    "com.google.android.gms.permission.AD_ID"
+  ],
+  "sdks": [
+    "com.google.android.gms:play-services-ads:22.6.0",
+    "com.appsflyer:af-android-sdk:6.12.2",
+    "com.google.firebase:firebase-analytics:21.5.0"
+  ]
+}
