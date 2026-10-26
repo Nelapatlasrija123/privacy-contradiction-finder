@@ -1,0 +1,12 @@
+{
+  "app_name": "TorchGlow Pro",
+  "stated_purpose": "Simple utility flashlight application using the device LED flash.",
+  "evidence_source": "Decompiled AndroidManifest.xml",
+  "policy_text": "TorchGlow Pro respects your digital privacy.\n\n1. Location Information: We do not collect, track, or share your precise location or GPS data.\n2. Audio and Microphone: We never record audio, wiretap, or access your device microphone under any circumstance.\n3. Address Book: We do not read, access, or upload your contacts list.\n4. Camera Usage: The camera hardware permission is requested solely to toggle the hardware LED torch on and off. No photos or video recordings are ever captured, stored, or transmitted.\n5. Personal Data: No personal identifiers or phone numbers are gathered.",
+  "permissions": [
+    "android.permission.CAMERA",
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.RECORD_AUDIO",
+    "android.permission.READ_CONTACTS"
+  ]
+}

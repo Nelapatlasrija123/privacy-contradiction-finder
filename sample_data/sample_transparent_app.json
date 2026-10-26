@@ -1,0 +1,12 @@
+{
+  "app_name": "NaviRoute Maps",
+  "stated_purpose": "Navigation and live traffic routing application.",
+  "evidence_source": "Play Store Data Safety / App Listing",
+  "policy_text": "NaviRoute Maps Privacy Policy:\n\n1. Location Data: We collect precise location data (GPS coordinates) to provide turn-by-turn navigation, real-time traffic alerts, and route optimization. Location collection occurs while the app is active in foreground or background navigation.\n2. Audio Access: We request microphone access to enable voice search for destinations.\n3. Contacts: If you opt to share your live trip ETA, we access your contacts with your permission.\n4. Device Identifiers: We collect anonymous device diagnostic data to improve route quality.",
+  "permissions": [
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.ACCESS_COARSE_LOCATION",
+    "android.permission.RECORD_AUDIO",
+    "android.permission.READ_CONTACTS"
+  ]
+}

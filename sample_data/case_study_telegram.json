@@ -1,0 +1,15 @@
+{
+  "app_name": "Telegram Messenger for Android",
+  "stated_purpose": "Fast and secure cloud-based messaging, voice/video calls, and file sharing application.",
+  "evidence_source": "Decompiled AndroidManifest.xml (Static Analysis)",
+  "policy_url": "https://telegram.org/privacy",
+  "policy_text": "Telegram Privacy Policy\n\n1. Basic Principles: Telegram is built on two core principles: We do not use your data to track you or show you ads, and we only store data essential to operate a secure cloud messaging service.\n\n2. Contacts and Address Book: If you choose to sync your contacts, Telegram will check your address book periodically with your consent so you can immediately see which of your friends are on Telegram. You can opt out and delete synced contacts in Settings.\n\n3. Location Sharing: We only access location data when you actively choose to share a Live Location or current coordinates with a contact in a chat. We do not track your background location without your active initiation.\n\n4. Camera and Microphone: Camera access is requested solely when you choose to take a photo or record video within the chat. Microphone access is used exclusively when recording voice messages or participating in end-to-end encrypted voice and video calls.\n\n5. Media and Files: Access to your photos and files is requested when you choose to send an attachment. Telegram does not scan or index your entire personal gallery without user action.",
+  "permissions": [
+    "android.permission.CAMERA",
+    "android.permission.RECORD_AUDIO",
+    "android.permission.READ_CONTACTS",
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.READ_MEDIA_IMAGES",
+    "android.permission.READ_MEDIA_VIDEO"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "app_name": "Brightest Flashlight (FTC Case No. 132-3087)",
+  "stated_purpose": "Simple utility flashlight application that illuminates the device camera LED flash.",
+  "evidence_source": "Decompiled AndroidManifest.xml (Static Analysis)",
+  "policy_url": "https://www.ftc.gov/legal-library/browse/cases-proceedings/132-3087-goldenshores-technologies-llc-erik-m-geidl-matter",
+  "policy_text": "Brightest Flashlight Privacy Notice:\n\n1. Purpose of Application: The application is designed to function solely as an illumination utility using your device camera hardware LED flash.\n2. Location Information: We do not collect, track, or share your geographic location data or GPS coordinates.\n3. Telephony and Phone State: We do not collect or monitor your phone calls, unique device identifiers, or cellular network status.\n4. Camera Access: The camera permission is required solely to activate the hardware camera LED torch. No photos, videos, or optical recordings are captured or saved.\n5. Personal Data: No personal information is collected or sold.",
+  "permissions": [
+    "android.permission.CAMERA",
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.ACCESS_COARSE_LOCATION",
+    "android.permission.READ_PHONE_STATE"
+  ]
+}

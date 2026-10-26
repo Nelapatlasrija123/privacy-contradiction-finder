@@ -1,0 +1,14 @@
+{
+  "app_name": "WhatsApp Messenger",
+  "stated_purpose": "Private messaging, end-to-end encrypted voice/video calling, and group communication.",
+  "evidence_source": "Google Play Store Listing / Data Safety",
+  "policy_url": "https://www.whatsapp.com/privacy",
+  "policy_text": "WhatsApp Privacy Policy:\n\n1. Location Information: We collect device location features if you use location-related features, such as when you choose to share your live location with your contacts or view nearby businesses. We do not track your real-time location when you are not using our location-related services.\n\n2. Camera and Microphone: We access your camera and microphone only when you explicitly take photos, record audio notes, or place end-to-end encrypted audio and video calls.\n\n3. Address Book and Contacts: If you grant permission, we access your device contacts list periodically to discover which of your contacts use WhatsApp and to facilitate messaging. We do not sell your contacts to third-party advertisers.\n\n4. Photos and Media: We access media files strictly when you choose to upload attachments or profile pictures.\n\n5. Device Identifiers: We collect diagnostic and performance information, including device hardware model, operating system, and connection status to maintain service reliability.",
+  "permissions": [
+    "android.permission.ACCESS_FINE_LOCATION",
+    "android.permission.CAMERA",
+    "android.permission.RECORD_AUDIO",
+    "android.permission.READ_CONTACTS",
+    "android.permission.READ_MEDIA_IMAGES"
+  ]
+}
