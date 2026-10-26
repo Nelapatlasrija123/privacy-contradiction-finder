@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # 🛡️ Privacy Contradiction Finder
 
 > **AI-Powered Cybersecurity and Consumer Rights Auditing System**  
@@ -303,3 +304,6 @@ git remote add origin https://github.com/<your-username>/privacy-contradiction-f
 git branch -M main
 git push -u origin main
 ```
+=======
+# privacy-contradiction-finder
+>>>>>>> b809f0c236a4c76179d80f697b2825cd7477e81b
