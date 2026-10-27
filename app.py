@@ -31,8 +31,10 @@ from src.permissions.permission_db import (
     explain_evidence_source,
     normalize_permission_name,
 )
+from src.analysis.tracker_detector import parse_sdk_input
 from src.analysis.contradiction_detector import (
     detect_contradictions,
+    EvidenceLevel,
     FindingClassification,
     RiskLevel,
     AuditReport,
@@ -288,6 +290,8 @@ def apply_case_and_run(sample_filename: str) -> None:
         permissions=perms,
         evidence_source=st.session_state.evidence_source,
         stated_purpose=st.session_state.stated_purpose,
+        sdk_entries=sample.get("sdks", []),
+        terms_text=sample.get("terms_text", ""),
     )
     st.session_state.current_page = "Results"
 
@@ -337,6 +341,7 @@ def render_sidebar() -> None:
         st.button("📱 WhatsApp (Demo)", key="sidebar_wa_preset", on_click=apply_case_and_run, args=("sample_whatsapp.json",), use_container_width=True)
         st.button("🔦 Torch (Contradictory)", key="sidebar_torch_preset", on_click=apply_case_and_run, args=("sample_contradictory_app.json",), use_container_width=True)
         st.button("⚖️ FTC Case (Landmark)", key="sidebar_ftc_preset", on_click=apply_case_and_run, args=("case_study_ftc_flashlight.json",), use_container_width=True)
+        st.button("🌦️ Weather (Hidden Trackers)", key="sidebar_tracker_preset", on_click=apply_case_and_run, args=("sample_tracker_app.json",), use_container_width=True)
 
 
 # ---------------------------------------------------------
@@ -505,6 +510,33 @@ def render_analyze_page() -> None:
             key="input_app_purpose",
         )
 
+        # Optional stronger evidence: SDKs (sharing), Terms & Conditions, and how far the evidence goes
+        with st.expander("🧩 Additional Evidence (optional) — SDKs, Terms & Conditions, Evidence Level"):
+            sdk_in = st.text_area(
+                "Third-party SDK / library packages found in the APK",
+                height=85,
+                placeholder="com.google.android.gms.ads\ncom.appsflyer\ncom.facebook.appevents",
+                help="Paste from an Exodus Privacy report, jadx package tree, or Gradle dependencies. "
+                     "Bundled tracker SDKs are evidence of third-party sharing even when the policy is silent.",
+                key="input_sdk_text",
+            )
+            terms_in = st.text_area(
+                "Terms & Conditions text",
+                height=85,
+                help="Scanned for clauses that link the contract to permissions: content licences, "
+                     "blanket consent, third-party sharing, and unilateral change rights.",
+                key="input_terms_text",
+            )
+            level_options = list(EvidenceLevel)
+            level_in = st.selectbox(
+                "Strongest evidence you have for these permissions",
+                options=level_options,
+                format_func=lambda lvl: lvl.value,
+                help="A declared permission only proves capability. Higher levels need code analysis, "
+                     "runtime hooking (Frida), or traffic capture (mitmproxy).",
+                key="input_evidence_level",
+            )
+
         st.markdown("<div style='height: 14px;'></div>", unsafe_allow_html=True)
 
         # Primary Action Button matching Panel 2
@@ -553,6 +585,10 @@ def render_analyze_page() -> None:
                         permissions=raw_perms,
                         evidence_source=st.session_state.evidence_source,
                         stated_purpose=st.session_state.stated_purpose,
+                        sdk_entries=parse_sdk_input(sdk_in),
+                        terms_text=clean_text(terms_in) if terms_in.strip() else "",
+                        # Keep the source's own level unless the user claims stronger evidence
+                        evidence_level=None if level_in == EvidenceLevel.DECLARED else level_in,
                     )
                     st.session_state.current_page = "Results"
                     st.rerun()
@@ -693,6 +729,29 @@ def render_results_page() -> None:
             """,
             unsafe_allow_html=True,
         )
+
+    st.markdown("<div style='height: 10px;'></div>", unsafe_allow_html=True)
+    st.caption(
+        f"🔬 Evidence strength: **{report.evidence_level}** — a requested permission shows what the app "
+        "*can* access; it is not proof that data was collected or sent."
+    )
+    with st.expander(f"🧮 How the Trust Score of {report.trust_score}/100 was calculated"):
+        st.markdown(
+            "Starts at 100. Each finding subtracts a fixed penalty (contradiction 30, undisclosed 15, "
+            "not justified by purpose 10), multiplied by the evidence weight "
+            "(declared 0.5, code present 0.75, runtime 0.9, traffic 1.0)."
+        )
+        if report.score_breakdown:
+            st.code("\n".join(report.score_breakdown), language=None)
+        else:
+            st.markdown("No penalties applied.")
+    if report.trackers_detected:
+        with st.expander(f"📡 Third-party trackers bundled in the app ({len(report.trackers_detected)})"):
+            st.dataframe(report.trackers_detected, use_container_width=True, hide_index=True)
+    if report.terms_notes:
+        with st.expander(f"📜 Terms & Conditions clauses that affect these permissions ({len(report.terms_notes)})"):
+            for note in report.terms_notes:
+                st.markdown(f"- {note}")
 
     st.markdown("<div style='height: 25px;'></div>", unsafe_allow_html=True)
 
@@ -896,6 +955,9 @@ def render_finding_details_page() -> None:
             </div>
             <div style="font-size: 0.8rem; color: #64748B;">
                 Source: Android Permissions ({report.evidence_source})
+            </div>
+            <div style="font-size: 0.8rem; color: #64748B;">
+                Evidence strength: {finding.evidence_level}
             </div>
         </div>
         """,

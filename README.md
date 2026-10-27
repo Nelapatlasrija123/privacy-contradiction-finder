@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 🛡️ Privacy Contradiction Finder
 
 > **AI-Powered Cybersecurity and Consumer Rights Auditing System**  
@@ -6,7 +5,7 @@
 
 [![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12%20%7C%203.15-blue.svg)](https://www.python.org/)
 [![Framework](https://img.shields.io/badge/UI-Streamlit-red.svg)](https://streamlit.io/)
-[![Tests](https://img.shields.io/badge/Tests-71%20Passed-brightgreen.svg)](https://pytest.org/)
+[![Tests](https://img.shields.io/badge/Tests-122%20Passed-brightgreen.svg)](https://pytest.org/)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
@@ -126,34 +125,43 @@ privacy-contradiction-finder/
 │   │
 │   ├── permissions/            # Android OS capability knowledge base
 │   │   ├── __init__.py
-│   │   └── permission_db.py    # 30+ permissions, capabilities, limitations, evidentiary weight
+│   │   └── permission_db.py    # 25 permissions, capabilities, limitations, evidentiary weight
 │   │
 │   ├── analysis/               # Analysis engines & comparator logic
 │   │   ├── __init__.py
 │   │   ├── rule_analyzer.py    # Deterministic regex & keyword claim extractor
 │   │   ├── llm_analyzer.py     # Grounded LLM provider with prompt injection defense
-│   │   └── contradiction_detector.py # Core comparator matrix & risk evaluator
+│   │   ├── tracker_detector.py # Third-party SDK / tracker signatures (sharing evidence)
+│   │   ├── terms_analyzer.py   # Terms & Conditions clauses linked to permissions
+│   │   └── contradiction_detector.py # Core comparator matrix, evidence levels & trust score
 │   │
 │   └── reporting/              # Export engines
 │       ├── __init__.py
 │       └── exporter.py         # CSV, JSON, and Pandas DataFrame report generators
 │
-├── tests/                      # Automated Test Suite (64 Tests)
+├── tests/                      # Automated Test Suite (122 Tests)
 │   ├── __init__.py
 │   ├── test_ingestion.py       # Ingestion & SSRF boundary tests (29 tests)
 │   ├── test_permissions.py     # Permission knowledge base tests (5 tests)
 │   ├── test_analysis.py        # Contradiction comparator tests (8 tests)
-│   ├── test_reporting.py       # Export schema & formatting tests (4 tests)
-│   └── test_security.py       # Adversarial prompt injection & attack tests (18 tests)
+│   ├── test_loophole_fixes.py  # Regression tests for faculty-review loopholes (23 tests)
+│   ├── test_tracker_detector.py # Tracker SDK detection tests (12 tests)
+│   ├── test_terms_analyzer.py  # Terms & Conditions clause tests (16 tests)
+│   ├── test_reporting.py       # Export schema & formatting tests (5 tests)
+│   ├── test_security.py        # Adversarial prompt injection & attack tests (18 tests)
+│   └── test_ui_workflow.py     # Streamlit page navigation tests (6 tests)
 │
 ├── sample_data/                # Safe demo fixtures & real case studies
 │   ├── sample_contradictory_app.json
 │   ├── sample_transparent_app.json
+│   ├── sample_tracker_app.json # Fictional app with hidden trackers + T&C
+│   ├── sample_whatsapp.json
 │   ├── case_study_telegram.json
 │   └── case_study_ftc_flashlight.json
 │
 └── reports/                    # Demonstration reports
-    └── FACULTY_DEMONSTRATION_REPORT.md # Academic case study dossier
+    ├── FACULTY_DEMONSTRATION_REPORT.md # Academic case study dossier
+    └── FACULTY_REVIEW_RESPONSE.md      # Faculty questions, answers & changes made
 ```
 
 ---
@@ -189,7 +197,7 @@ pip install -r requirements.txt
 ```powershell
 python -m pytest -v
 ```
-*(Expected output: `64 passed`)*
+*(Expected output: `122 passed`)*
 
 ### 6. Launch the Streamlit Web Application
 ```powershell
@@ -207,6 +215,20 @@ Our tool treats permissions according to the reliability of their origin:
 * **Dynamic Runtime Request**: Very high weight demonstrating code execution; requires packet inspection (PCAP) to prove off-device exfiltration.
 * **Play Store Data Safety**: Self-reported developer declarations; subject to documentation lag.
 * **User Manual Entry**: Unverified; subject to human entry errors.
+
+### Evidence Levels & Trust Score
+Every finding carries an evidence level, and its score penalty is scaled by it:
+
+| Level | Evidence | Weight |
+| :--- | :--- | :--- |
+| 1 | Declared in manifest / store listing | 0.5 |
+| 2 | Code present in the APK (e.g. bundled tracker SDK) | 0.75 |
+| 3 | Observed at runtime (Frida, permission prompt) | 0.9 |
+| 4 | Data seen leaving the device (mitmproxy / PCAP) | 1.0 |
+
+Score = 100 − Σ (penalty × weight), where the penalty is 30 for a contradiction, 15 for an undisclosed item, and 10 for a permission the stated purpose does not justify. The Results page shows the line-by-line breakdown.
+
+See [`reports/FACULTY_REVIEW_RESPONSE.md`](reports/FACULTY_REVIEW_RESPONSE.md) for the faculty questions and how each was addressed.
 
 ### Contradiction Taxonomy
 | Classification | Description | Typical Risk |
@@ -304,6 +326,3 @@ git remote add origin https://github.com/<your-username>/privacy-contradiction-f
 git branch -M main
 git push -u origin main
 ```
-=======
-# privacy-contradiction-finder
->>>>>>> b809f0c236a4c76179d80f697b2825cd7477e81b
